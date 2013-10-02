@@ -72,6 +72,20 @@ def get_products():
 
 ###############################################################################
 
+def payment(card_token='', amount=0, gateway="stripe", currency="usd"):
+    """Helper function that returns a payment dict."""
+    if not card_token or not amount:
+        raise ValueError("Arguments `amount` and `card_token` are required")
+    if amount < 50:
+        raise ValueError("Amount must be an integer greater than 50c")
+    return {
+        'gateway': gateway,
+        'currency': currency,
+        'amount': amount,
+        'card_token': card_token,
+    }
+
+
 def new_order(sku='', quantity=0, line_items=[], payments=[]):
     # TODO: Generalize the payload generation
     if sku and quantity:
