@@ -10,7 +10,12 @@ API_KEY = TEST_API_KEY
 API_KEY_PASSWORD = ''
 
 
+import logging
+logger = logging.getLogger('airbrite')
+
+
 def _get(resource):
+    logger.debug('REST API call - _get(%s)' % resource)
     return requests.get(END_POINT + resource, auth=(API_KEY, API_KEY_PASSWORD))
 
 
@@ -18,6 +23,7 @@ def _post(resource, data={}):
     url = END_POINT + resource
     headers = {'content-type': 'application/json'}
     payload = json.dumps(data)
+    logger.debug('REST API call - _post(%s)' % resource)
     return requests.post(url, auth=(API_KEY, API_KEY_PASSWORD),
                          headers=headers, data=payload)
 
@@ -41,6 +47,8 @@ def get_product(product_id):
 
     response = _get('products/' + product_id)
     if response.status_code != 200:
+        error_msg = response.json()['data']
+        logger.error('get_product() failed with "%s"' % error_msg)
         raise Exception('Product not found')
     product_data = response.json()[u'data']
     return api.Product(product_data)
@@ -51,6 +59,8 @@ def get_products():
 
     response = _get('products')
     if response.status_code != 200:
+        error_msg = response.json()['data']
+        logger.error('get_products() failed with "%s"' % error_msg)
         # TODO: make this a critical error
         raise Exception('Products endpoint failed')
 
@@ -62,20 +72,30 @@ def get_products():
 
 ###############################################################################
 
-def new_order(sku='', quantity=0):
-    if not sku or not quantity:
-        raise Exception('SKU and quantity needed')
-
+def new_order(sku='', quantity=0, line_items=[], payments=[]):
     # TODO: Generalize the payload generation
-    payload = {
-        "line_items": [{
-            "sku": sku,
-            "quantity": quantity,
-        }]
-    }
+    if sku and quantity:
+        payload = {
+            "line_items": [{
+                "sku": sku,
+                "quantity": quantity,
+            }]
+        }
+    elif line_items:
+        payload = {
+            "line_items": line_items,
+        }
+    else:
+        raise ValueError('Either sku+quantity or line_items must be specifed')
+
+    # Add payments to the payload, if specified
+    if payments:
+        payload['payments'] = payments
 
     response = _post('orders', data=payload)
     if response.status_code != 200:
+        error_msg = response.json()['data']
+        logger.error('new_order() failed with "%s"' % error_msg)
         raise Exception('Order could not be placed')
 
     return api.Order(response.json()['data'])
