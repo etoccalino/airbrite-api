@@ -3,5 +3,5 @@
 dist/
 build/
 *flymake.py
-airbrite.egg-info
+airbrite.egg-info/
 env/
