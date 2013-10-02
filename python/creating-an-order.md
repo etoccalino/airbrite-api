@@ -38,7 +38,7 @@ __Step 2: Create your Order__
 
 Next, we'll attempt to order 1 item of "first-product".
 
-    >>> order = airbrite.new_order(sky='first-product', quantity=1)
+    >>> order = airbrite.new_order(sku='first-product', quantity=1)
     >>> order
 
 If successful, you should receive a response similar to:
