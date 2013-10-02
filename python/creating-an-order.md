@@ -77,8 +77,19 @@ To have a quick look at the data catched by the order object:
 
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SO FAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-## Create an Order with One-Time Payment
+## Creating an order with one-time payment
 
+To create an order and charge the payment card, we'll be using [Stripe](https://www.stripe.com) to process the payment. [Get a test Stripe token](https://dash.airbrite.io/stripe.html) and replace {tok_xxxxxxxxxxxxxxx} below.
 
+    >>> item = { "sku": "first-product", "quantity": 1 }
+    >>> payment = {
+    ...   "gateway": "stripe",
+    ...   "currency": "usd",
+    ...   "amount": 100,
+    ...   "card_token": "{tok_xxxxxxxxxxxxxxx}"
+    ... }
+    >>> order = airbrite.new_order(line_items=[item], payments=[payment])
 
-## Create a Pre-Order
+## Creating A Pre-Order
+
+TBD

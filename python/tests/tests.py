@@ -149,25 +149,30 @@ class RESTOrderTestCase(unittest.TestCase):
         self.assertEqual(order.line_items[0]['sku'], self.ORDER_SKU)
 
 
-class RESTPaymentOrderTestCase(unittest.TestCase):
-    """Test 'orders' frontend when payment is involved"""
+#
+# The following tests suffer from the fact that Stripe Card Tokens can only be
+# used once.
+#
+#
+# class RESTPaymentOrderTestCase(unittest.TestCase):
+#     """Test 'orders' frontend when payment is involved"""
 
-    def setUp(self):
-        # Use the Stripe API to create a test card token.
-        pass
+#     ORDER_SKU = 'first-product'
+#     ORDER_QUANTITY = 1
+#     STRIPE_CARD_TOKEN = 'tok_2gDluFcLl1UEXV'
 
-    # def test_new_order_with_line_items_and_payments(self):
-    #     item = {
-    #         'sku': self.ORDER_SKU,
-    #         'quantity': self.ORDER_QUANTITY,
-    #     }
-    #     payment = {
-    #         'gateway': 'stripe',
-    #         'currency': 'usd',
-    #         'amount': 100,
-    #         'card_token': self.STRIPE_CARD_TOKEN,
-    #     }
-    #     order = airbrite.new_order(line_items=[item], payments=[payment])
-    #     self.assertIsInstance(order, airbrite.api.Order)
-    #     self.assertEqual(order.quantity, self.ORDER_QUANTITY)
-    #     self.assertEqual(order.line_items[0]['sku'], self.ORDER_SKU)
+#     def test_new_order_with_line_items_and_payments(self):
+#         item = {
+#             'sku': self.ORDER_SKU,
+#             'quantity': self.ORDER_QUANTITY,
+#         }
+#         payment = {
+#             'gateway': 'stripe',
+#             'currency': 'usd',
+#             'amount': 100,
+#             'card_token': self.STRIPE_CARD_TOKEN,
+#         }
+#         order = airbrite.new_order(line_items=[item], payments=[payment])
+#         self.assertIsInstance(order, airbrite.api.Order)
+#         self.assertEqual(order.quantity, self.ORDER_QUANTITY)
+#         self.assertEqual(order.line_items[0]['sku'], self.ORDER_SKU)
