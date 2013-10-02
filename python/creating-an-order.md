@@ -75,8 +75,6 @@ To have a quick look at the data catched by the order object:
     u'updated_date': u'2013-10-02T15:04:43.880Z',
     u'user_id': u'5237a347429acf0400000013'}
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SO FAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 ## Creating an order with one-time payment
 
 To create an order and charge the payment card, we'll be using [Stripe](https://www.stripe.com) to process the payment. [Get a test Stripe token](https://dash.airbrite.io/stripe.html) and replace {tok_xxxxxxxxxxxxxxx} below.
