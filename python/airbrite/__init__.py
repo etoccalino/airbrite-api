@@ -1,14 +1,25 @@
 import requests
+import json
 import api
 
 END_POINT = 'https://api.airbrite.io/v2/'
-
 TEST_API_KEY = 'sk_test_a805be8b2add854f09976b3b5c0f5bd06c14617c'
+
+# Initialize to the test API key and password
 API_KEY = TEST_API_KEY
+API_KEY_PASSWORD = ''
 
 
-def _get(location):
-    return requests.get(END_POINT + location, auth=(API_KEY, ''))
+def _get(resource):
+    return requests.get(END_POINT + resource, auth=(API_KEY, API_KEY_PASSWORD))
+
+
+def _post(resource, data={}):
+    url = END_POINT + resource
+    headers = {'content-type': 'application/json'}
+    payload = json.dumps(data)
+    return requests.post(url, auth=(API_KEY, API_KEY_PASSWORD),
+                         headers=headers, data=payload)
 
 
 def test_connection():
@@ -51,5 +62,20 @@ def get_products():
 
 ###############################################################################
 
-def new_order():
-    pass
+def new_order(sku='', quantity=0):
+    if not sku or not quantity:
+        raise Exception('SKU and quantity needed')
+
+    # TODO: Generalize the payload generation
+    payload = {
+        "line_items": [{
+            "sku": sku,
+            "quantity": quantity,
+        }]
+    }
+
+    response = _post('orders', data=payload)
+    if response.status_code != 200:
+        raise Exception('Order could not be placed')
+
+    return api.Order(response.json()['data'])

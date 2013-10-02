@@ -10,12 +10,16 @@ This tutorial describes how you can create orders with the python interface to A
 
 ## Setup
 
+First you will have to install the python interface to Airbrite's API in your system (or virtual environment):
+
+    >>> pip install airbrite
+
 The Airbrite's API can be access through the Python interactive interpreter. You'll be running all the turorials in an interactive session:
 
     python
     >>> import airbrite
 
-The python interface will be setup to use an test API key that we've provided, so you can test right away. The tutorials assume you have a test connection ready, as above.
+The python interface will be setup to use a test API key that we've provided, so you can test right away. The tutorials assume you have a test connection ready, as in the example above.
 
 ## Create a Simple Order
 
@@ -25,63 +29,53 @@ __Step 1: Make sure you've created a Product__
 
 To get started, let's double check that you have at least one product in Airbrite. Make the following request:
 
-    >>> for product in airbrite.products():
-    >>>    print product
+    >>> for product in airbrite.get_products():
+    >>>    print product.sku, product.description
 
 We have a product called "My First Product" with the SKU "first-product". We'll be creating orders with "first-product".
-
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SO FAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
 __Step 2: Create your Order__
 
 Next, we'll attempt to order 1 item of "first-product".
 
-curl https://api.airbrite.io/v2/orders \
-    -u sk_test_a805be8b2add854f09976b3b5c0f5bd06c14617c: \
-    -d "line_items[0][sku]=first-product"\
-    -d "line_items[0][quantity]=1"
+    >>> order = airbrite.new_order(sky='first-product', quantity=1)
+    >>> order
 
 If successful, you should receive a response similar to:
 
-    {
-        "meta": {
-            "code": 200,
-            "env": "test"
-        },
-        "data": {
-            "user_id": "5237a347429acf0400000013",
-            "_id": "5237a8e7a1b644040000000d",
-            "line_items": [
-                {
-                    "sku": "first-product",
-                    "quantity": "1",
-                    "price": "995",
-                    "description": "My First Product",
-                    "name": null,
-                    "weight": null,
-                    "inventory": null,
-                    "metadata": {}
-                }
-            ],
-            "customer_id": null,
-            "shipping_address": null,
-            "shipping": {},
-            "tax": {},
-            "discount": {},
-            "currency": "usd",
-            "status": null,
-            "description": null,
-            "metadata": {},
-            "created": 1379379432,
-            "created_date": "2013-09-17T00:57:12.007Z",
-            "updated": 1379379432,
-            "updated_date": "2013-09-17T00:57:12.008Z",
-            "order_number": 1001,
-            "payments": [],
-            "shipments": []
-        }
-    }
+    >>> <Order (xxx)>
+
+To have a quick look at the data catched by the order object:
+
+    >>> from pprint import pprint
+    >>> pprint(order.to_dict())
+    {u'_id': u'524c360b1382340700000029',
+    u'created': 1380726283,
+    u'created_date': u'2013-10-02T15:04:43.879Z',
+    u'currency': u'usd',
+    u'customer_id': None,
+    u'description': None,
+    u'discount': {},
+    u'line_items': [{u'description': u'My First Product',
+                     u'inventory': None,
+                     u'metadata': {},
+                     u'name': None,
+                     u'quantity': 1,
+                     u'sku': u'first-product',
+                     u'updated': 1379378436,
+                     u'updated_date': u'2013-09-17T00:40:36.649Z',
+                     u'weight': None}],
+    u'metadata': {},
+    u'order_number': 1361,
+    u'shipping': {},
+    u'shipping_address': None,
+    u'status': None,
+    u'tax': {},
+    u'updated': 1380726283,
+    u'updated_date': u'2013-10-02T15:04:43.880Z',
+    u'user_id': u'5237a347429acf0400000013'}
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> SO FAR <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 ## Create an Order with One-Time Payment
 
