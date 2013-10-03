@@ -24,22 +24,21 @@ class Product (object):
 
     def _from_data(self, data):
         """Initialize the Product instance with the data dict"""
-        self._id = data[u'_id'] or self._id
-        self.name = data[u'name'] or self.name
-        self.sku = data[u'sku'] or self.sku
-        self.description = data[u'description'] or self.description
-        self.inventory = data[u'inventory'] or self.inventory
-        self.metadata = data[u'metadata'] or self.metadata
-        self.weight = data[u'weight'] or self.weight
+        self._id = data[u'_id'] if u'_id' in data else self._id
+        self.name = data[u'name'] if u'name' in data else self.name
+        self.sku = data[u'sku'] if u'sku' in data else self.sku
+        self.description = data[u'description'] if u'description' in data else self.description
+        self.inventory = data[u'inventory'] if u'inventory' in data else self.inventory
+        self.metadata = data[u'metadata'] if u'metadata' in data else self.metadata
+        self.weight = data[u'weight'] if u'weight' in data else self.weight
 
-        self.created = data[u'created'] or self.created
-        self.updated = data[u'updated'] or self.updated
+        self.created = data[u'created'] if u'created' in data else self.created
+        self.updated = data[u'updated'] if u'updated' in data else self.updated
         # TODO: This should be datetime objects
-        self.created_date = data[u'created_date'] or self.created_date
-        self.created_date
-        self.updated_date = data[u'updated_date'] or self.updated_date
+        self.created_date = data[u'created_date'] if u'created_date' in data else self.created_date
+        self.updated_date = data[u'updated_date'] if u'updated_date' in data else self.updated_date
 
-        self.user_id = data[u'user_id'] or self.user_id
+        self.user_id = data[u'user_id'] if u'user_id' in data else self.user_id
 
         # TODO: reimplement __repr__ and __str__ to avoid this reference
         self._data = data
@@ -89,33 +88,32 @@ class Order (object):
 
     def _from_data(self, data):
         """Initialize the Product instance with the data dict"""
-        self._id = data[u'_id'] or self._id
-        self.user_id = data[u'user_id'] or self.user_id
-        self.customer_id = data[u'customer_id'] or self.customer_id
-        self.order_number = data[u'order_number'] or self.order_number
-        self.description = data[u'description'] or self.description
+        self._id = data[u'_id'] if '_id' in data else self._id
+        self.user_id = data[u'user_id'] if u'user_id' in data else self.user_id
+        self.customer_id = data[u'customer_id'] if u'customer_id' in data else self.customer_id
+        self.order_number = data[u'order_number'] if u'order_number' in data else self.order_number
+        self.description = data[u'description'] if u'description' in data else self.description
 
-        self.currency = data[u'currency'] or self.currency
-        self.discount = data[u'discount'] or self.discount
-        self.tax = data[u'tax'] or self.tax
+        self.currency = data[u'currency'] if u'currency' in data else self.currency
+        self.discount = data[u'discount'] if u'discount' in data else self.discount
+        self.tax = data[u'tax'] if u'tax' in data else self.tax
 
-        self.shipping = data[u'shipping'] or self.shipping
-        self.shipping_address = (data[u'shipping_address']
-                                 or self.shipping_address)
-        self.status = data[u'status'] or self.status
+        self.shipping = data[u'shipping'] if u'shipping' in data else self.shipping
+        self.shipping_address = data[u'shipping_address'] if u'shipping_address' in data else self.shipping_address
+        self.status = data[u'status'] if u'status' in data else self.status
 
-        self.created = data[u'created'] or self.created
-        self.updated = data[u'updated'] or self.updated
+        self.created = data[u'created'] if u'created' in data else self.created
+        self.updated = data[u'updated'] if u'updated' in data else self.updated
         # TODO: This should be datetime objects
-        self.created_date = data[u'created_date'] or self.created_date
-        self.updated_date = data[u'updated_date'] or self.updated_date
+        self.created_date = data[u'created_date'] if u'created_date' in data else self.created_date
+        self.updated_date = data[u'updated_date'] if u'updated_date' in data else self.updated_date
 
-        self.metadata = data[u'metadata'] or self.metadata
+        self.metadata = data[u'metadata'] if u'metadata' in data else self.metadata
 
         # TODO: make this Product instances, or at least Product proxies
-        self.line_items = data[u'line_items'] or self.line_items
+        self.line_items = data[u'line_items'] if u'line_items' in data else self.line_items
 
-        self.status = data[u'status'] or self.status
+        self.status = data[u'status'] if u'status' in data else self.status
 
         # TODO: reimplement __repr__ and __str__ to avoid this reference
         self._data = data

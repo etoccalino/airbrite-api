@@ -63,12 +63,14 @@ class RESTProductTestCase(unittest.TestCase):
         # len() is not yet supported, so we exhaust the iterator.
         products = airbrite.get_products()
         ps = []
+        first_product = None
         for product in products:
             ps.append(product)
+            if product._id == self.MY_FIRST_PRODUCT_ID:
+                first_product = product
 
-        self.assertEqual(len(ps), 1)
-        self.assertIsInstance(ps[0], airbrite.api.Product)
-        self.assertEqual(ps[0]._id, self.MY_FIRST_PRODUCT_ID)
+        self.assertTrue(len(ps) > 0)
+        self.assertIsInstance(first_product, airbrite.api.Product)
 
 
 class OrderTestCase(unittest.TestCase):
