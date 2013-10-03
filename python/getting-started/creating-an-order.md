@@ -14,7 +14,7 @@ First you will have to install the python interface to Airbrite's API in your sy
 
     >>> pip install airbrite
 
-The Airbrite's API can be access through the Python interactive interpreter. You'll be running all the turorials in an interactive session:
+Airbrite's API can be accessed through the Python interactive interpreter. You'll be running all the turorials in an interactive session:
 
     python
     >>> import airbrite
